@@ -1,0 +1,12 @@
+name = FlexPaper
+description = Enables support for the FlexPaper pdf viewer.
+package = SWF Tools
+dependencies[] = swftools
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-03-05
+version = "6.x-3.0-beta5"
+core = "6.x"
+project = "swftools"
+datestamp = "1299367268"
+

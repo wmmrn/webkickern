@@ -1,0 +1,13 @@
+name = "Menu Settings per Content Type"
+description = "This module allow to set the Menu Settings with certain Menus for content editing by Content Type."
+package = "Administration"
+core = 6.x
+project = "ctm"
+
+
+; Information added by drupal.org packaging script on 2011-11-17
+version = "6.x-2.1"
+core = "6.x"
+project = "ctm"
+datestamp = "1321558537"
+

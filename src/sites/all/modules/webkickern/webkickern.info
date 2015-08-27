@@ -1,0 +1,5 @@
+; $Id: webkickern.info 521 2010-06-05 12:06:31Z frame $
+name = Webkickern
+description = "Some fancy stuff for webkickern"
+version = 6.x-0.1
+core = 6.x

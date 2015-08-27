@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implementation of hook_install()
+ */
+function menu_css_names_install() {
+  cache_clear_all();
+}
+
+/**
+ * Implementation of hook_enable()
+ */
+function menu_css_names_enable() {
+  cache_clear_all();
+}
+
+/**
+ * Implementation of hook_disable()
+ */
+function menu_css_names_disable() {
+  cache_clear_all();
+}

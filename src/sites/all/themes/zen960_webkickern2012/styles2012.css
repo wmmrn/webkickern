@@ -1,0 +1,271 @@
+/* Some additional styles */
+body {
+    background-image: url(images/bg_body.jpg);
+    background-color: #180501;
+    background-attachment:fixed;
+    background-position:top center;
+}
+
+#branding {
+  margin: 20px 0 0 0;
+}
+
+#content {
+  margin-top: 60px;
+  min-height: 350px;
+}
+
+#logo a {
+  background: url(images/logo.png) no-repeat 0 0;
+  margin-left: 0;
+}
+
+#site-header {
+  background: url(images/bg_top.png) no-repeat left bottom;
+  height: 250px;
+}
+
+#site-menu {
+  padding: 0.5em 0;
+  z-index: 100;
+}
+
+#site-menu .block-menu {
+  padding:0;
+}
+
+#site-menu ul.menu li.first {
+  margin: 0
+}
+
+#main {
+  background: url(images/bg_content.png) no-repeat right 30px;
+}
+
+#bottom-social-links {
+  margin-top: 50px;
+}
+
+#banner-webmonday {
+  margin-top: 30px;
+}
+
+#bottom-logo {
+  padding-left: 0px;
+  padding-top: 15px;
+  font-size: 0.9em;
+  font-style: normal;
+  color: white;
+  margin-top: 185px;
+  margin-left: 12px;
+  font-weight: normal;
+  margin-right: 20px;
+}
+
+#bottom-logo p {
+  font-size: 10px;
+}
+
+#user-nav .link-username {
+  background: url(images/user_select.gif) no-repeat scroll 0 center transparent;
+}
+
+#user-nav .link-createteam {
+  background: url(images/user_add.gif) no-repeat scroll 0 center transparent;
+}
+
+#user-nav .link-logoff {
+  background: url(images/user_disconnect.gif) no-repeat scroll 0 center transparent;
+}
+
+div.block, h1#page-title {
+  background: transparent;
+}
+
+a {
+  color: #009999;
+}
+
+a:hover,
+#navbar-inner .block-menu a:hover,
+#navbar-inner .secondary-menu a:hover  {
+  color: #C51015;
+}
+
+#navbar-inner .block-menu .menu {
+  position: relative;
+}
+
+#navbar-inner .block-menu .menu .menu {
+  width: 760px;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  margin-top: 10px;
+}
+
+#navbar-inner .block-menu .menu li {
+  position: static;
+}
+
+
+#navbar-inner .block-menu .menu .menu li {
+  font-size: 90%;
+}
+
+#navbar-inner .block-menu li.active-trail a {
+  color: #C51015;
+}
+
+#navbar-inner div.block.with-block-editing:hover div.edit {
+  background-color: transparent;
+}
+
+#web-sponsor {
+ text-align: center;
+ font-size: 80%;
+}
+
+#web-sponsor a {
+  color: #C51015;
+}
+
+h1#page-title {
+  padding: 0;
+}
+
+h2 a, h3 a, h4 a {
+  color: #009999;
+
+}
+
+h2 a:hover, h3 a:hover, h4 a:hover {
+  color: #C51015;
+}
+
+#content .block,
+.not-front #content-inner,
+#footer .block {
+  background: white;
+  border: 1px solid #666;
+  background: rgba(255,255,255,0.8);
+}
+
+.not-front #inner-wrapper {
+  padding: 0.8em 1.5em;
+}
+
+.not-front #main-content {
+  padding: 0;
+  padding: 0;
+}
+
+#content .block h2.block-title,
+h1#page-title {
+  background: url(images/block_small_bg.png) repeat-x left top;
+  padding-bottom: 20px;
+  margin: 0;
+}
+
+#block-webkickern-0 {
+  padding: 0.8em 1.5em;
+}
+
+#block-webkickern-0 .content {
+  background: url(images/bg_postit.gif) no-repeat left top;
+  height: 230px;
+}
+
+#block-webkickern-0 .content div {
+  margin-left: 100px;
+  font-size: 7.5em;
+}
+
+.node-inner .content {
+  border: transparent;
+  padding-bottom: 0.2em;
+  /* border: 1px dotted #CCC; */
+}
+
+.front-news .views-row {
+  margin-top: 10px;
+  border-bottom: 1px dotted #CCC;
+}
+
+.front-news .views-row-last {
+  border-bottom: transparent;
+}
+
+tr.odd .form-item, tr.even .form-item {
+  white-space: normal;
+}
+
+/* == Important messages (status, warning, and error) for the user == */
+#content-inner div.messages,
+#content-inner div.status,
+#content-inner div.warning,
+#content-inner div.error,
+#content-inner div.help {
+  margin: 0 0 20px 0;
+}
+
+div.messages, div.status, div.warning, div.error {
+  background-image: none;
+}
+
+div.messages,
+div.password-description {
+    border: 1px solid;
+    padding: 15px;
+    margin: 10px 0;
+    min-height: 19px;
+    clear: left;
+    color: #000;
+}
+
+/* links in messages */
+div.messages a,
+div.password-description a {
+    text-decoration: underline;
+    word-wrap: break-word; /* force line break */
+}
+
+/* we need #content as it defines ul styles more hirarchical see line 278 */
+#content div.messages ul,
+#content div.password-description ul {
+    margin: 0;
+    padding: 0 10px 0 0;
+}
+
+#content div.messages ul li,
+#content div.password-description ul li {
+    padding: 0;
+    margin: 2px 0 2px 10px;
+    list-style-type: square;
+    background: none;
+}
+
+/* okay message */
+div.messages.status,
+div.password-description.status {
+    background-color: #eaf5e5;
+    color: #359901;
+}
+
+/* warning message */
+div.messages.warning,
+div.password-description.warning {
+    background-color: #fef5e4;
+    color: #ca4b00;
+}
+
+/* error message */
+div.messages.error,
+div.password-description.error {
+    background-color: #fbe6e5;
+    color: #d70101;
+}
+
+#arrow {
+  margin-top: -50px;
+}

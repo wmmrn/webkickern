@@ -1,0 +1,52 @@
+<?php
+
+
+/**
+ * @file
+ * Enables SWF Tools support for the getID3 module.
+ *
+ * This allows SWF Tools to try and access ID3 tag data when it is building a
+ * playlist, producing nicely formatted content that includes artist and title
+ * data.
+ */
+
+/**
+ * Attaches ID3 data to a SWF Tools playlist element.
+ * 
+ * @param array $element
+ *   The element to process.
+ *   
+ * @return nothing
+ *   Modifies the element directly.
+ */
+function swftools_getid3_swftools_playlist_element_alter(&$element) {
+  
+  // Analyze the file for ID3 tags and store the result in data
+  $data = getid3_analyze($element['filepath']);
+  
+  // If the getID3 library is properly installed collapse tags in to comments
+  if (defined('GETID3_VERSION')) {
+    getid3_lib::CopyTagsToComments($data);
+  }
+  
+  // Attach ID3 data to the element in all cases
+  $element['getid3'] = $data;
+
+  // If GetID3 returned an error or no comments then quit
+  if (isset($data['error']) || !isset($data['comments'])) {
+    return;
+  }
+  
+  // Attach title
+  if (!$element['title'] && isset($data['comments']['title'][0]) && $data['comments']['title'][0]) {
+    $element['title'] = $data['comments']['title'][0];
+  }
+
+  // Attach author
+  if (!$element['author'] && isset($data['comments']['artist'][0]) && $data['comments']['artist'][0]) {
+    $element['author'] = $data['comments']['artist'][0];
+  }
+  
+  // TODO: Attach more data, like duration etc
+  
+}

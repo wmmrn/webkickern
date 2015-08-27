@@ -1,0 +1,28 @@
+Menu CSS Names
+================================================================================
+
+
+menu_css_names 6.x-1.3
+================================================================================
+New in this version:
+- added support for nice_menus (tested with Nice Menus version 6.x-2.1)
+- now adds class name to local task menus (tabs)
+- tested with Special Menu Items (6.x-1.5) and DHTML Menu (6.x-3.5)
+- tested with Zen theme
+
+Bugs fixed:
+- Issue #949618 by rhache: Fixed appearance of double/multiple hyphens
+
+
+menu_css_names 6.x-1.2
+================================================================================
+Added several fixes and additional functionality in this version, however the
+module file was not committed properly to the drupal.org git repo. Please use
+6.x-1.3 version instead.
+
+
+menu_css_names 6.x-1.1
+================================================================================
+Bugs fixed:
+- Issue #598128 by 2440media2 and jerlyon: Fix theme override for Primary Links 
+and Secondary Links.

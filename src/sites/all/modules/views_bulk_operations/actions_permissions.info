@@ -1,0 +1,11 @@
+name = Actions permissions
+description = Integrates actions with the permission system.
+package = Administration
+core = 6.x
+
+; Information added by Drupal.org packaging script on 2015-08-04
+version = "6.x-1.17"
+core = "6.x"
+project = "views_bulk_operations"
+datestamp = "1438697638"
+

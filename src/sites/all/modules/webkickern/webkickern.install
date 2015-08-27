@@ -1,0 +1,13 @@
+<?php
+// $Id: webkickern.install 457 2010-05-03 13:35:31Z frame $
+
+/**
+ * Implemenation of hook_install().
+ * Set the module weight
+ *
+* @author   frank meyerer <meyerer@digi-info.de>
+*/
+function webkickern_install()
+{
+    db_query("UPDATE {system} SET weight=%d WHERE name='%s'", 77, 'webkickern');
+}

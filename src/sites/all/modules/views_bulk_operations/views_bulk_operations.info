@@ -1,0 +1,13 @@
+name = Views Bulk Operations
+description = Exposes new Views style 'Bulk Operations' for selecting multiple nodes and applying operations on them.
+dependencies[] = views
+package = Views
+core = 6.x
+php = 5.0
+
+; Information added by Drupal.org packaging script on 2015-08-04
+version = "6.x-1.17"
+core = "6.x"
+project = "views_bulk_operations"
+datestamp = "1438697638"
+

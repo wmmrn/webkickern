@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Implementation of hook_form_alter(). Menu Settings for Content Type.
+ */
+function ctm_form_alter(&$form, $form_state, $form_id) {
+  // Menu Setting for content types - Content Type Form
+  if ($form_id == 'node_type_form') {
+    $form['menu_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Menu Settings'),
+      '#description' => t('Enable Menu Settings for this content type.'),
+      '#collapsible' => TRUE,
+    );
+    $default_values = variable_get($form['#node_type']->type.'_menu_settings', array());
+    //$default_values = $default_values ? $default_values : array();
+    $options = menu_get_menus();
+    $form['menu_settings']['menu'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Enable the Menus you want to be available for this Content Type'),
+      '#default_value' => $default_values,
+      '#options' => $options,
+      );  
+
+    // Menu expand behaviour settings
+    $form['menu_settings']['menu_expand'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Menu expand behaviour'),
+      '#default_value' => $default_values,
+      '#options' => array('expand_by_default' => t('Expand new menu items by default')),
+    );  
+
+    $form['#submit'][] = 'ctm_node_type_form_submit';
+  }
+  // Menu Settings for Node Edit (Form)
+  elseif (isset($form['#node']) && $form['#node']->type .'_node_form' == $form_id) {
+    global $user;
+    if ($user->uid != 1) {
+      $menu_settings = variable_get($form['#node']->type.'_menu_settings', array());
+      if (!empty($form['menu']['#item']['link_title'])) {
+        // Add the existing menu to the list, even if it's not an option
+        $cur_menu = $form['menu']['#item']['menu_name'];
+        if (!in_array($cur_menu, $menu_settings)) {
+          $menu_settings[$cur_menu] = $cur_menu;
+        }
+      }
+      if ($menu_settings) {
+        $menus = array_intersect_key(menu_get_menus(), $menu_settings);
+        $options = menu_parent_options($menus, $form['menu']['#item']);
+        $form['menu']['parent']['#options'] = $options;
+      } else {
+        $form['menu']['#access'] = FALSE;
+      }
+    }
+  }
+  // Delete Content Type
+  elseif ($form_id == 'node_type_delete_confirm') {
+    $form['#submit'][] = 'ctm_node_type_delete_confirm';
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function ctm_nodeapi(&$node, $op) {
+  switch ($op) {
+    case 'update':
+    case 'insert':
+      if (isset($node->menu)) {
+        $item = &$node->menu;
+        if (empty($item['delete']) && trim($item['link_title'])) {
+          $item['link_title'] = trim($item['link_title']);
+          $item['link_path'] = "node/$node->nid";
+          if (!$item['customized']) {
+            $item['options']['attributes']['title'] = trim($node->title);
+          }
+          
+          $menu_settings = variable_get($node->type.'_menu_settings', NULL);
+          if ($menu_settings && $menu_settings['expand_by_default']) {
+            $item['expanded'] = 1;
+          }
+          
+          if (!menu_link_save($item)) {
+            drupal_set_message(t('There was an error saving the menu link.'), 'error');
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ *  Content Type Form Submit - Save Menu Settings for Content Type. 
+ */
+function ctm_node_type_form_submit(&$form, $form_state) {
+  $menu_settings = array_merge(array_filter($form_state['values']['menu']), array_filter($form_state['values']['menu_expand']));
+  if ($menu_settings) {
+     variable_set($form_state['values']['type'].'_menu_settings', $menu_settings);
+  } else {
+     variable_del($form_state['values']['type'].'_menu_settings');
+  }
+}
+
+/**
+ *  Delete Content Type Form Submit - Delete Menu Settings Variable. 
+ */
+function ctm_node_type_delete_confirm(&$form, $form_state) {
+  variable_del($form_state['values']['type'].'_menu_settings');
+}

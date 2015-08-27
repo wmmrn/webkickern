@@ -1,0 +1,130 @@
+<?php
+// $Id: menu_admin_per_menu.module,v 1.5 2010/06/26 13:46:54 anrikun Exp $
+
+/**
+ * @file menu_admin_per_menu.module
+ * Main file for the menu_admin_per_menu module.
+ *
+ * By default, Drupal 6 allows only users with administrer menu permission to add, modify or delete menu items.
+ * In case you want for instance to let certain users manage primary links or secondary links but not navigation menu,
+ * this module provides this functionality.
+ * Developped by Henri MEDOT <henri.medot[AT]absyx[DOT]fr>
+ * http://www.absyx.fr
+ */
+
+/**
+ * Implementation of hook_perm()
+ */
+function menu_admin_per_menu_perm() {
+  $perms = array();
+  $menus = menu_get_menus();
+  foreach ($menus as $name => $title) {
+    $perms[] = 'administer '.$name.' menu items';
+  }
+  return $perms;
+}
+
+/**
+ * Implementation of hook_menu_alter()
+ */
+function menu_admin_per_menu_menu_alter(&$items) {
+  $items['admin/build/menu']['page callback'] = '_menu_admin_per_menu_menu_overview_page';
+  $items['admin/build/menu']['access callback'] = '_menu_admin_per_menu_access';
+  unset($items['admin/build/menu']['access arguments']);
+  $items['admin/build/menu-customize/%menu']['access callback'] = '_menu_admin_per_menu_menu_access';
+  $items['admin/build/menu-customize/%menu']['access arguments'] = array(3);
+  $items['admin/build/menu-customize/%menu/add']['access callback'] = '_menu_admin_per_menu_menu_access';
+  $items['admin/build/menu-customize/%menu/add']['access arguments'] = array(3);
+  $items['admin/build/menu/item/%menu_link/edit']['access callback'] = '_menu_admin_per_menu_menu_link_access';
+  $items['admin/build/menu/item/%menu_link/edit']['access arguments'] = array(4);
+  $items['admin/build/menu/item/%menu_link/reset']['access callback'] = '_menu_admin_per_menu_menu_link_access';
+  $items['admin/build/menu/item/%menu_link/reset']['access arguments'] = array(4);
+  $items['admin/build/menu/item/%menu_link/delete']['access callback'] = '_menu_admin_per_menu_menu_link_access';
+  $items['admin/build/menu/item/%menu_link/delete']['access arguments'] = array(4);
+}
+
+function _menu_admin_per_menu_menu_overview_page() {
+  if (user_access('administer menu')) {
+    return menu_overview_page();
+  }
+  $result = db_query("SELECT * FROM {menu_custom} ORDER BY title");
+  $content = array();
+  while ($menu = db_fetch_array($result)) {
+    if (user_access('administer '.$menu['menu_name'].' menu items')) {
+      $menu['href'] = 'admin/build/menu-customize/'. $menu['menu_name'];
+      $menu['localized_options'] = array();
+      $content[] = $menu;
+    }
+  }
+  return theme('admin_block_content', $content);
+}
+
+function _menu_admin_per_menu_access() {
+  if (user_access('administer menu')) {
+    return TRUE;
+  }
+  $perms = menu_admin_per_menu_perm();
+  foreach ($perms as $perm) {
+    if (user_access($perm)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+function _menu_admin_per_menu_menu_access($menu = NULL) {
+  if (user_access('administer menu')
+   || user_access('administer '.$menu['menu_name'].' menu items')) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function _menu_admin_per_menu_menu_link_access($menu_link = NULL) {
+  if (user_access('administer menu')
+   || user_access('administer '.$menu_link['menu_name'].' menu items')) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function menu_admin_per_menu_form_alter(&$form, $form_state, $form_id) {
+  if (isset($form['menu']['parent']) && !user_access('administer menu')) {
+    if (($form_id == 'menu_edit_item') && isset($form['menu']['#access']) && !$form['menu']['#access']) {
+      return;
+    }
+    $form['menu']['#access'] = FALSE;
+
+    $perm_menus = array();
+    $menus = menu_get_menus();
+    foreach ($menus as $name => $title) {
+      if (user_access('administer '.$name.' menu items')) {
+        $perm_menus[] = $name;
+      }
+    }
+    if ((count($perm_menus) > 0) && is_array($form['menu']['parent']['#options'])) {
+      $has_mlid = !empty($form['menu']['mlid']['#value']);
+      $default_value = $form['menu']['parent']['#default_value'];
+      $option_keys = array_keys($form['menu']['parent']['#options']);
+      foreach ($option_keys as $option_key) {
+        list($menu, $item) = explode(':', $option_key);
+        if (!in_array($menu, $perm_menus)) {
+          unset($form['menu']['parent']['#options'][$option_key]);
+          if ($has_mlid && ($option_key == $default_value)) {
+            return;
+          }
+        }
+      }
+      $option_keys = array_keys($form['menu']['parent']['#options']);
+      if (count($option_keys) > 0) {
+        $form['menu']['#access'] = TRUE;
+        if (!$has_mlid && !in_array($default_value, $option_keys)) {
+          $form['menu']['parent']['#default_value'] = $option_keys[0];
+        }
+      }
+    }
+  }
+}

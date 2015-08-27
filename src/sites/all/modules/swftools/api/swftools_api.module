@@ -1,0 +1,158 @@
+<?php
+
+/**
+ * @file
+ * A lightweight API to allow other modules to access SWF Tools embedding methods.
+ *
+ * Other modules can access SWF Tools embedding methods, but must supply a
+ * properly defined item as none of the SWF Tools features like size detection
+ * and rendering in to players are available.
+ */
+
+
+/**
+ * @addtogroup swftools
+ * @{
+ */
+
+
+/**
+ * Other modules can query whether SWF Tools API is present by checking for this constant.
+ */
+define('SWFTOOLS_API_INSTALLED', TRUE);
+
+/**
+ * Do not clean the id when the user supplies their own.
+ */
+define('SWFTOOLS_DO_NOT_CLEAN_ID', FALSE);
+
+
+/**
+ * @} End of "addtogroup swftools"
+ */
+
+
+// Load core module
+module_load_include('inc', 'swftools', 'includes/swftools.core');
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function swftools_api_menu() {
+
+  $items['admin/settings/swftools'] = array(
+    'title' => 'SWF Tools',
+    'description' => 'Settings to control how SWF Tools integrates with Adobe Flash related methods and tools like video players, MP3 players and image viewers.',
+    'access arguments' => array('administer flash'),
+    'page callback' => 'system_admin_menu_block_page',
+    'file' => 'system.admin.inc',
+  );
+  
+  $items['admin/settings/swftools/embed'] = array(
+    'title' => 'Embedding settings',
+    'description' => 'Set the embedding method that SWF Tools should use, and configure embedding defaults.',
+    'access arguments' => array('administer flash'),
+    'weight' => -2,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('swftools_admin_embed_form'),
+    'file' => 'includes/swftools.admin.inc',
+  );
+
+  return $items;
+
+}
+
+
+/**
+ * Implementation of hook_theme().
+ */
+function swftools_api_theme() {
+  
+  return array(
+  
+    // This is the wrapper function that is exposed by the API
+    'swftools_api' => array(
+      'arguments' => array('file' => NULL),
+    ),
+    
+    // This provides access to the direct embedding method
+    'swftools_direct' => array(
+      'arguments' => array('file' => NULL, 'data' => NULL),
+    	'file' => 'includes/swftools.core.inc',
+    ),
+    
+    // This implements the swftools Form API element
+    'swftools' => array(
+      'arguments' => array('content' => NULL, 'options' => NULL),
+    	'file' => 'includes/swftools.core.inc',
+    ),
+    
+    // This themes the alternate HTML markup
+    'swftools_html_alt' => array(
+      'arguments' => array('data' => NULL),
+      'file' => 'includes/swftools.core.inc',
+    ),
+    
+  );
+  
+}
+
+
+/**
+ * Implementation of hook_elements().
+ */
+function swftools_api_elements() {
+  
+  $type['swftools'] = array(
+    '#params' => array(),
+    '#flashvars' => array(),
+    '#othervars' => array(),
+    '#methods' => array(),
+    '#value' => '',
+  );
+
+  // Return the type
+  return $type;
+  
+}
+
+
+/**
+ * Prepares the minimum definition to render Flash, and hands it to the
+ * selected embedding function.
+ * 
+ * @param string $file
+ *   The file to be rendered.
+ * @param array $options
+ *   An array of options (params, flashvars, othervars, methods).
+ *   
+ * @return string
+ *   A markup string.
+ */
+function theme_swftools_api($file, $options = array()) {
+
+  // Initialise any $options array elements that weren't passed by the caller
+  swftools_initialise_options($options);
+  
+  // Initialise othervars with some defaults
+  $options['othervars'] += array(
+    'height' => '100%',
+    'width' => '100%',  
+  );
+  
+  // Initialise a minimum version
+  $options['params'] += array(
+    'version' => '7',
+  );
+  
+  // Set id - note - we do not check for uniqueness - that's up to the caller
+  $options['othervars']['id'] = swftools_get_id($options['othervars']['id'], SWFTOOLS_DO_NOT_CLEAN_ID);
+  
+  // Get current embed method (theme) from swftools_embed_method
+  $theme = variable_get('swftools_embed_method', 'swftools_direct');
+  
+  // Call theme to render
+  return theme($theme, $file, $options);
+  
+}

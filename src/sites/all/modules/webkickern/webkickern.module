@@ -1,0 +1,187 @@
+<?php
+
+/**
+ * [di] Webkickern Module
+ *
+ * @copyright   2010 [di] digitale informationssyteme gmbh
+ * @version     $Id: webkickern.module 520 2010-06-05 09:11:13Z frame $
+*/
+
+/**
+ * Implementation of template_preprocess_page().
+ *
+ * @author    frank meyerer <meyerer@digi-info.de>
+*/
+
+function webkickern_preprocess_page(&$variables)
+{
+    $variables['webkickern_user_nav'] = webkickern_user_navigation();
+    $variables['webkickern_footer_nav'] = webkickern_footer_navigation();
+    $variables['webkickern_plainpage'] = webkickern_plainpage();
+}
+
+/**
+ * Implementation of template_preprocess_page().
+ *
+ * @author    frank meyerer <meyerer@digi-info.de>
+*/
+
+function webkickern_user_navigation()
+{
+    global $user;
+    $items = array();
+
+    $items[] = l(t('Sign in'), 'user', array('attributes' => array('class' => 'link-login')));
+    if($user->uid != 0)
+    {
+        $items = array();
+        $items[] = l($user->name, 'user/' . $user->uid, array('attributes' => array('class' => 'link-username')));
+        //$items[] = l(t('Create Team'), 'node/add/team', array('attributes' => array('class' => 'link-createteam')));
+        //$items[] = l(t('My Teams'), 'teams/' . $user->uid, array('attributes' => array('class' => 'link-myteam')));
+        $items[] = l(t('Log out'), 'logout', array('attributes' => array('class' => 'link-logoff')));
+    }
+
+    $links = theme('item_list', $items, NULL, 'ul', array('class' => 'links'));
+
+    $user_nav = '<div class="shadowbox-small grow">' . $links . '</div>';
+
+    return $user_nav;
+}
+
+/**
+ * Implementation of template_preprocess_page().
+ *
+ * @author    frank meyerer <meyerer@digi-info.de>
+*/
+
+function webkickern_footer_navigation()
+{
+    //krumo(menu_primary_links());
+    $pirmary   = menu_navigation_links('menu-mainmenu2012', 0);
+    $footer = menu_navigation_links('menu-footer-addon', 0);
+
+    $footer_nav = array_merge($pirmary, $footer);
+
+    return $links = theme('links', $footer_nav, array('class' => 'links'));
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * @link    http://api.drupal.org/api/function/hook_block/6
+ * @author  frank meyerer <meyerer@digi-info.de>
+ */
+
+function webkickern_block($op = 'list', $delta = 0)
+{
+    if (user_access('access content'))
+    {
+        if ($op == 'list')
+        {
+            $blocks[0]['info']  = t('Free slots');
+
+            return $blocks;
+        }
+        elseif ($op == 'view')
+        {
+            switch ($delta)
+            {
+                case 0:
+                        return webkickern_block_free_slots();
+                    break;
+                default:
+                    return '';
+            }
+        }
+    }
+}
+
+/**
+ * Returns the last free slots
+ *
+ * @author  frank meyerer <meyerer@digi-info.de>
+ */
+
+function webkickern_block_free_slots()
+{
+    $max_teams = 20;
+
+    $total_play_teams = db_affected_rows(db_query("SELECT n.title FROM {node} n, {content_type_team} ctt WHERE n.type = 'team' AND n.status = '1' AND ctt.field_status_value = 'Nimmt am Tunier teil' AND n.nid = ctt.nid AND n.created > '1343826765'"));
+    $total_wait_teams = db_affected_rows(db_query("SELECT n.title FROM {node} n, {content_type_team} ctt WHERE n.type = 'team' AND n.status = '1' AND ctt.field_status_value = 'Auf der Warteliste' AND n.nid = ctt.nid AND n.created > '1343826765'"));
+
+    $free_slots = $max_teams - $total_play_teams;
+
+    if($free_slots <= 0)
+    {
+        $free_slots = 0;
+    }
+
+    $content = '<div class="free-slots">' . $free_slots . '</div><div class="wait-list">' .$total_wait_teams . ' auf der Warteliste</div>';
+
+    $block  = array
+    (
+        'content' => $content,
+        'subject' => t('Free slots')
+    );
+
+    return $block;
+}
+
+function webkickern_yearFromUrl($uri) {
+
+  $uri = explode('/', $uri);
+
+  if(is_numeric($uri[0]) && $uri[0] > 2000) {
+    return $uri[0];
+  }
+  return '';
+}
+
+function webkickern_yearSelector($uri) {
+  $selectedYear = webkickern_yearFromUrl($uri);
+  $links = array();
+  $terms = taxonomy_get_tree(1);
+  foreach ($terms as $term) {
+    $active = '';
+    $href = $term->name;
+    if($href == date('Y')) {
+      if($selectedYear == '') {
+        $active = 'active';
+      }
+      $href = ''; // Current Year
+    }
+    if($selectedYear == $term->name) {
+      $active = 'active';
+    }
+    $links['link-year-' . $term->name] = array('title' => $term->name, 'href' => $href, 'attributes' => array('class' => $active));
+  }
+
+  $text = theme('links', $links);
+
+ return($text);
+}
+
+function webkickern_plainpage() {
+  $view = views_get_page_view();
+  if($view->view->name == 'plainviews') {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function webkickern_perm() {
+  return array('allowed to set all taxonomy years');
+}
+
+function webkickern_form_alter(&$form, &$form_state, $form_id) {
+  global $account;
+  if($form_id == 'story_node_form' || $form_id == 'team_node_form' || $form_id == 'page_node_form') {
+    if(!empty($form['taxonomy'][1])) { // Voc 1: Jahr
+      $form['taxonomy'][1]['#default_value'] = 3; // Term: 2012
+      if(!user_access('allowed to set all taxonomy years', $account)) {
+        $form['taxonomy'][1]['#access'] = FALSE; // no term selector
+      }
+      //krumo($form);
+    }
+  }
+}

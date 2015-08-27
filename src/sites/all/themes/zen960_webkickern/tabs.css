@@ -1,0 +1,139 @@
+/* $Id: tabs.css,v 1.1 2009/06/26 00:33:39 duvien Exp $ */
+
+/*
+ * Tabs CSS
+ *
+ * Adds styles for the primary and secondary tabs.
+ *
+ * Compare this with default CSS found in the system module's stylesheet (a copy
+ * of which is in drupal6-reference.css, line 510.)
+ *
+ */
+
+ /* $Id: tabs.css,v 1.1 2009/06/26 00:33:39 duvien Exp $ */
+
+/*
+ * Tabs CSS
+ *
+ * Adds styles for the primary and secondary tabs.
+ *
+ * Compare this with default CSS found in the system module's stylesheet (a copy
+ * of which is in drupal6-reference.css, line 510.)
+ *
+ */
+
+/** Overwrite Drupal Tabs - system.css **/
+
+div.tabs
+{
+    margin-bottom: 10px;
+}
+
+#content ul.primary
+{
+    background-color: #EDEDED;
+    border-collapse: collapse;
+    border-style: none;
+    display: block;
+    font-size: 85%;
+    line-height: normal;
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    white-space: nowrap;
+    width: 100%;
+}
+
+#content ul.primary li
+{
+    border-right: 1px solid #fff;
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+#content ul.primary li a
+{
+    background-color: #EDEDED;
+    border-style: none;
+    color: #CC0066;
+    display: inline-block;
+    float: left;
+    margin: 0;
+    position: relative;
+    padding: 0.3em 1em;
+    text-decoration: none;
+}
+
+#content ul.primary li.active a,
+#content ul.primary li.active a:hover
+{
+    background-color: #D1D2D3;
+    border: none;
+    color: #000;
+}
+
+#content ul.primary li a:hover
+{
+    background-color: #D1D2D3;
+    border: none;
+    color: #000;
+    text-decoration: none;
+}
+
+/* secondary tabs */
+
+#content ul.secondary
+{
+    background-color: #D1D2D3;
+    margin: 0;
+    padding: 0 0 0 5px;
+    border-bottom: 1px solid #c0c0c0;
+    list-style: none;
+    white-space: nowrap;
+}
+
+#content ul.secondary li
+{
+    float: left;
+    background-color: transparent;
+    background-image: none !important;
+    margin: 0 5px 0 0;
+    padding: 8px 0px;
+    border-right: none;
+    font-size: 12px;
+}
+
+ul.secondary a
+{
+    display: block;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #CC0066 !important;
+}
+
+ul.secondary a .tab
+{
+    display: block;
+    height: 18px; /* 24px (parent) - 6px (padding) */
+    margin: 0;
+    padding: 3px 8px;
+    line-height: 18px;
+}
+
+ul.secondary a:hover
+{
+    background-color: #EDEDED;
+    color: #000 !important;
+}
+
+ul.secondary a.active,
+ul.secondary a.active:hover
+{
+    border: none;
+    color: #000 !important;
+    background-color: #EDEDED;
+}

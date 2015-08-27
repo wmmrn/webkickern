@@ -1,0 +1,794 @@
+/* $Id: styles.css,v 1.1 2009/06/26 00:33:39 duvien Exp $ */
+body {
+    background-image: url(images/bg_body.jpg);
+    background-color: #180501;
+    background-attachment:fixed;
+    background-position:top center;
+}
+
+body.year-2010 {
+    background-image: url(images/bg_body_2010.jpg);
+}
+
+body.year-2011 {
+    background-image: url(images/bg_body_2011.jpg);
+}
+
+body.cke_show_borders {
+ background-color: #FFF !important;
+ background-image: none;
+}
+
+h1#site-name {
+  margin-bottom: 0;
+}
+
+#site-header,
+#site-subheader,
+#footer-region,
+.column,
+.node,
+.comment,
+.block {
+  margin-bottom: 1.5em;
+}
+
+#site-header {
+    background: url(images/bg_top.png) no-repeat left bottom;
+    height: 230px;
+    margin-bottom: 0;
+}
+
+.year-2010 #site-header {
+    background: url(images/bg_top_2010.jpg) repeat-x left bottom;
+}
+
+.year-2011 #site-header {
+    background: url(images/bg_top_2011.jpg) repeat-x left bottom;
+}
+
+#banner-webmonday {
+    margin-top: 20px;
+}
+
+#bottom-social-links {
+    margin-top: 31px;
+}
+
+#top-social-links div {
+    text-align: right;
+    margin-right: 20px;
+}
+
+#top-social-links ul {
+    float: left;
+    margin: 3px 10px 0 10px;
+    font-size: 1.0em;
+}
+
+#top-social-links .icon_heart,
+.link-icon_heart {
+    vertical-align: top;
+}
+
+#footer-nav {
+    margin-top: 197px;
+}
+
+#footer-nav div {
+    text-align: right;
+}
+
+#footer-nav .links li {
+    border-right: 1px solid #7eb83d;
+}
+
+#footer-nav .links li a {
+    padding-right: 5px;
+}
+
+#footer-nav .links li.last {
+    border: none;
+}
+
+#footer-nav .links li a.active {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+#top-social-links ul li{
+    padding: 0 0.3em;
+}
+
+#site-menu {
+    background-color: #000;
+}
+
+#branding {
+    margin: 5px 0 20px 0;
+}
+
+#logo a {
+  margin-left: 20px;
+  display: block;
+  width: 337px;
+  height: 70px;
+  overflow: hidden;
+  text-indent: -10000px;
+}
+
+#year-selector {
+  background-color: #000;
+  color: #FFF;
+}
+
+#year-selector div {
+  padding: 5px 10px;
+  font-size: 10px;
+  text-align: right;
+}
+
+#year-selector div a {
+  color: #666;
+}
+
+#year-selector div a.active {
+  color: #FFF;
+  text-decoration: underline;
+}
+
+#logo a {
+  background: url(images/logo.png) no-repeat 0 0;
+}
+
+.year-2010 #logo a {
+  background: url(images/logo2010.png);
+}
+
+.year-2011 #logo a {
+  background: url(images/logo2011.png);
+}
+
+#main {
+    background: url(images/bg_content.png) no-repeat right 30px;
+}
+
+* html #main {
+    background:#CC0066 url(images/bg_content.png) repeat-y left top;
+}
+
+.year-2010 #main {
+    background: url(images/bg_content_2010.png) no-repeat left top;
+}
+
+.year-2011 #main {
+    background: url(images/bg_content_2011.png) no-repeat left top;
+}
+
+#content {
+    margin-top: 40px;
+}
+
+#main-content,
+div.block {
+    padding: 0.8em 1.5em;
+    margin-bottom: 1em;
+}
+
+.shadowbox {
+    background-color: #FFF;
+    -moz-box-shadow: 5px 5px 5px #4F4F4F; /* Firefox */
+    -webkit-box-shadow: 5px 5px 5px #4F4F4F; /* Safari, Chrome */
+    box-shadow: 5px 5px 5px #4F4F4F; /* CSS3 */
+}
+
+.shadowbox-small {
+    background-color: #FFF;
+    -moz-box-shadow: 3px 3px 3px #4F4F4F; /* Firefox */
+    -webkit-box-shadow: 3px 3px 3px #4F4F4F; /* Safari, Chrome */
+    box-shadow: 3px 3px 3px #4F4F4F; /* CSS3 */
+}
+
+.grow {
+    float: left;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+#content-closure {
+    background: url(images/bg_bottom.png) no-repeat left bottom;
+    height: 310px;
+}
+
+#di-logo {
+    padding-left: 0px;
+    padding-top: 15px;
+    font-size: 0.9em;
+    font-style: normal;
+    color: #FFF;
+    margin-top: 230px;
+    margin-left: 12px;
+    font-weight: normal;
+    margin-right: 20px;
+}
+
+.view-id-team .views-field-title span {
+    font-size: 0.7em;
+    font-family: Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+    margin-left: 20px;
+}
+
+/* HTML Element */
+pre, code
+  {
+    font-size: 1.0em; /* Monospace fonts can be hard to read */
+    font-family: "Bitstream Vera Sans Mono", "Courier New", monospace;
+  }
+
+table
+  {
+    border-collapse: collapse;
+    width: 100%; /* Prevent cramped-looking tables */
+  }
+
+  th,
+  thead th,
+  tbody th
+  {
+    text-align: left;
+    padding-right: 0;
+    border-bottom: none;
+  }
+
+  tbody
+  {
+    border-top: none;
+  }
+
+/** abbreviations **/
+  abbr
+  {
+    border-bottom: 1px dotted #ccc;
+    cursor: help;
+    white-space: nowrap;
+  }
+
+  /* Date-based "abbreviations" show computer-friendly timestamps which are not
+     human-friendly. */
+  abbr.created
+  {
+    border: none;
+    cursor: auto;
+    white-space: normal;
+  }
+
+ul.links li {
+    padding-right: 0.2em;
+}
+
+ul.links li.first {
+    padding-left: 0;
+}
+
+.node-inner .content {
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 1em;
+    margin-bottom: 0.5em;
+}
+
+/** links **/
+a {
+    color: #CC0066;
+    text-decoration: none;
+}
+
+.year-2010 a {
+    color: #C51015;
+}
+
+.year-2011 a {
+    color: #CC0066;
+}
+
+a:hover {
+    color: #8D0046;
+    text-decoration: underline;
+}
+
+#di-logo a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#di-logo a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+h2 a {
+    color: #CC0066;
+    text-decoration: none;
+}
+
+.year-2010 h2 a {
+    color: #C51015;
+}
+
+.year-2011 h2 a {
+    color: #CC0066;
+}
+
+h2 a:hover {
+    color: #5a9515;
+    text-decoration: underline;
+}
+
+.year-2010 h2 a:hover {
+    color: #720101;
+}
+
+.year-2011 h2 a:hover {
+    color: #5a9515;
+}
+
+h3 a {
+    color: #CC0066;
+    text-decoration: none;
+}
+
+.year-2010 h3 a {
+    color: #C51015;
+}
+
+.year-2011 h3 a {
+    color: #CC0066;
+}
+
+h3 a:hover {
+    color: #5a9515;
+    text-decoration: underline;
+}
+
+.year-2010 h3 a:hover {
+    color: #720101;
+}
+
+.year-2011 h3 a:hover {
+    color: #5a9515;
+}
+
+h4 a {
+    color: #CC0066;
+    text-decoration: none;
+}
+
+.year-2010 h4 a {
+    color: #C51015;
+}
+
+.year-2011 h4 a {
+    color: #CC0066;
+}
+
+h4 a:hover {
+    color: #5a9515;
+    text-decoration: underline;
+}
+
+.year-2010 h4 a:hover {
+    color: #720101;
+}
+
+.year-2011 h4 a:hover {
+    color: #5a9515;
+}
+
+#user-nav li a.active {
+    color:#000000;
+    font-weight: bold;
+}
+
+/** images **/
+  img
+  {
+    border: 0;
+  }
+
+/** horizontal rules **/
+  hr
+  {
+    height: 1px;
+    border: 1px solid #ccc;
+  }
+
+
+  fieldset
+  {
+    margin: 1em 0;
+    padding: 0.5em;
+    border:1px solid #ccc;
+  }
+
+  td {
+      padding: 0.5em;
+  }
+
+.node-type-page ol {
+    margin-left: 20px;
+}
+
+fieldset {}
+
+/** Top Menu **/
+#navbar-inner .block-menu {
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+    font-size: 170%;
+    margin: 0;
+}
+
+#navbar-inner .block-menu li.active-trail a {
+    color: #7eb83d;
+}
+
+#navbar-inner .secondary-menu {
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+    font-size: 130%;
+    margin: 5px 0 0 40px;
+}
+
+#navbar-inner .block-menu a,
+#navbar-inner .secondary-menu a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+#navbar-inner .block-menu a:hover,
+#navbar-inner .secondary-menu a:hover {
+    color:#7eb83d;
+    text-decoration: underline;
+}
+
+.year-2010 #navbar-inner .block-menu a:hover,
+.year-2010 #navbar-inner .secondary-menu a:hover {
+    color:#720101;
+    text-decoration: underline;
+}
+
+#navbar-inner .block-menu a.active,
+#navbar-inner .secondary-menu a.active {
+    color: #7eb83d;
+    text-decoration: underline;
+}
+
+#navbar-inner .block {
+  background: none;
+  box-shadow: none;
+}
+
+#navbar-inner .block-menu .menu li {
+  position: relative;
+  color: #fff;
+}
+
+#navbar-inner .block-menu li {
+  float: left;
+  display: block;
+  white-space: nowrap;
+}
+
+#navbar-inner .block-menu li a,
+#navbar-inner .block-menu li a.active {
+  color: #fff;
+ }
+
+#navbar-inner .block-menu .menu .menu {
+  position: absolute;
+  left: 0;
+}
+
+#navbar-inner .block-menu .menu .menu li {
+  font-size: 14px;
+}
+
+
+/** Blocks **/
+#block-block-1 {
+    /* background: url(images/block_big_bg.png) #FFF repeat-x left top; */
+}
+
+div.block,
+h1#page-title
+{
+    background: url(images/block_big_bg.png) #FFF repeat-x left top;
+}
+
+.year-2010 div.block,
+.year-2010 h1#page-title
+{
+    background: url(images/block_big_bg_2010.png) #FFF repeat-x left top;
+}
+
+.year-2011 div.block,
+.year-2011 h1#page-title
+{
+    background: url(images/block_big_bg_2011.png) #FFF repeat-x left top;
+}
+
+h1#page-title {
+    padding: 0.2em 0 0.8em 0.5em;
+    margin-bottom: 0;
+}
+
+#user-nav ul li {
+    font-size: 1.0em;
+    padding: 0.2em;
+    margin:0;
+    line-height: 2em;
+}
+
+#user-nav ul li.first {
+    padding-left: 0.5em;
+}
+
+#user-nav ul li.last {
+    padding-right: 0.5em;
+}
+
+#user-nav .link-login {
+    background: url(images/user_key.gif) no-repeat scroll 0 center transparent;
+    padding-left: 20px;
+}
+
+#user-nav .link-username {
+    background: url(images/user_select.gif) no-repeat scroll 0 center transparent;
+    padding-left: 20px;
+}
+
+#user-nav .link-createteam {
+    background: url(images/user_add.gif) no-repeat scroll 0 center transparent;
+    padding-left: 20px;
+}
+
+#user-nav .link-myteam {
+    background: url(images/user_teams.gif) no-repeat scroll 0 center transparent;
+    padding-left: 20px;
+}
+
+#user-nav .link-logoff {
+    background: url(images/user_disconnect.gif) no-repeat scroll 0 center transparent;
+    padding-left: 20px;
+}
+
+/**  Teampage **/
+.teamlist-full .views-row {
+    border-bottom: 1px dashed #cecece;
+    margin-bottom: 1em;
+    min-height: 110px;
+}
+
+.teamlist-full .views-row-last {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.teamlist-winner .views-row {
+    min-height: 80px;
+}
+
+.views-field-field-teamlogo-fid,
+.node-type-team .team_logo {
+    float: left;
+    margin-right: 15px;
+    padding-top: 3px;
+}
+
+.views-field-field-company-value,
+.node-type-team .field_company {
+    font-size: 85%;
+}
+
+.views-field-title {
+    margin: 0;
+}
+
+
+#content-inner div.messages,
+#content-inner div.status,
+#content-inner div.warning,
+#content-inner div.error,
+#content-inner div.help {
+    margin: 1em;
+}
+
+.teamstogo {
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 137px;
+    height: 149px;
+    background: url(images/bg_notice.png) no-repeat left top;
+}
+
+.teamstogo .number {
+    margin-left: 40px;
+    font-size: 6em;
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+    line-height: 135%;
+}
+
+.teamstogo .free {
+    margin-left: 65px;
+    font-size: 0.6em;
+}
+
+#block-webkickern-0 {
+    padding:0;
+}
+
+#block-webkickern-0 h2.title{
+   padding:0.5em 0 0 0.8em;
+   margin-bottom:17px;
+}
+
+
+
+#block-webkickern-0 .content {
+    background: url(images/bg_postit.gif) no-repeat left top;
+    height: 230px;
+}
+
+#block-webkickern-0 .content div {
+text-align:center;
+color:#fff;
+    margin-left: 130px;
+    padding-top:30px;
+    font-size: 9em;
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+}
+
+.field_motto {
+    font-size: 17px;
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+}
+
+.wait-list {
+    font-size: 0.9em !important;
+    padding-top:0 !important;
+    font-family: Arial,'Liberation Sans',FreeSans,sans-serif !important;
+}
+
+
+#block-views-preround-block_1 .views-field-title,
+#block-views-preround-block_2 .views-field-title,
+#block-views-preround-block_3 .views-field-title,
+#block-views-preround-block_4 .views-field-title
+{
+    width: 50%;
+}
+
+#block-views-preround-block_1 .content table td,
+#block-views-preround-block_2 .content table td,
+#block-views-preround-block_3 .content table td,
+#block-views-preround-block_4 .content table td
+{
+    width: 10%;
+}
+
+#block-views-team-block_2 .views-row,
+#block-views-team-block_3 .views-row
+ {
+    clear: both;
+}
+
+#block-views-team-block_2 .views-row h4,
+#block-views-team-block_3 .views-row h4 {
+    margin-bottom: 0;
+}
+
+
+.team-place {
+    float:left;
+    height: 90px;
+    width: 50px;
+    font-size: 4em;
+    font-family: Georgia,"Palatino Linotype",Garamond,"Times New Roman",Times,serif;
+    line-height: 1em;
+}
+
+.team-logo {
+    float:left;
+    height: 70px;
+    width: 80px;
+}
+
+.team-company {
+    font-size: 0.7em;
+}
+
+.final-result {
+    text-align: center;
+    font-size: 2em;
+    margin-right: 20px;
+}
+
+/* Specials */
+h2.front {
+	font-size: 3em;
+	color: #c51015;
+	margin-bottom: 0;
+}
+
+#block-block-1 h2.title {
+	margin-bottom: 0.7em;
+}
+
+div.block h2.title {
+	margin-bottom: 1.2em;
+}
+
+div.view-display-id-block_1 div.meta,
+#comments .submitted {
+	font-size: 80%;
+}
+
+.node-inner ol li {
+    font-size: 1.1em;
+}
+
+div.view-display-id-block_1 div.node,
+div.view-display-id-block_1 h2.title {
+	margin-bottom: 0.5em;
+}
+
+#block-views-team-block_1 .views-row {
+	margin-bottom: 0.8em;
+}
+
+#block-views-team-block_1 .views-row-last {
+	margin-bottom: 0;
+}
+
+#block-views-team-block_1 .views-row h4 {
+	margin-bottom: 0;
+}
+
+#block-views-team-block_1 .views-row .team-company {
+	font-size: 0.8em;
+}
+
+
+/*
+** Formatting for administration page
+**
+** The admin panel styles are a mess. IE has problems with this so this is
+** only a temporary fix. This should be fixed in core.
+*/
+div.admin-panel {
+  padding: 0;
+}
+
+div.admin-panel .body {
+  padding: 0 !important;
+}
+
+div.admin .left,
+div.admin .right {
+  width: 50%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+div.admin .right .admin-panel {
+  margin-left: 10px;
+}
+
+/* Theme settings */
+#div-zen-debug strong
+  {
+    float: left;
+    width: 90px;
+    margin-left: 0;
+    margin-right: 10px;
+    text-align: left;
+  }

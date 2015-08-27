@@ -1,0 +1,13 @@
+
+name = Views exporter
+description = Allows exporting multiple views at once.
+package = "Views"
+dependencies[] = views
+core = 6.x
+
+; Information added by Drupal.org packaging script on 2015-02-11
+version = "6.x-3.2"
+core = "6.x"
+project = "views"
+datestamp = "1423647787"
+

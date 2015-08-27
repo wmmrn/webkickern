@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Enables simple integration of SWF Tools with the upload module.
+ */
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function swftools_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case 'view':
+      if ($node->files && variable_get('swftools_upload_integration', 0)) {
+        $extensions = variable_get('swftools_upload_extensions', array('swf', 'mp3', 'flv'));
+        $swf = '';
+        if (count($node->files) == 1) {
+          $files = $node->files;
+          $file = array_shift($files);
+          $extension = strtolower(pathinfo($file->filepath, PATHINFO_EXTENSION));
+          if (in_array($extension, $extensions)) {
+            $swf = swf($file->filepath);
+          }
+        }
+        else {
+          $files = array();
+          foreach ($node->files as $key => $file) {
+            $extension = strtolower(pathinfo($file->filepath, PATHINFO_EXTENSION));
+            if (in_array($extension, $extensions)) {
+              $files[$key] = $file;
+            }
+          }
+          if ($files) {
+            $swf = swf($files);
+          }
+        }
+        if ($swf) {
+          $node->content['swftools_upload_integration']['#value'] = $swf;
+          $node->swftools['upload_integration'] = $swf;
+        }
+      } 
+  }
+}
+
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ * 
+ * Alters the SWF Tools file handling form to include an upload integration section.
+ */
+function swftools_form_swftools_admin_handling_form_alter(&$form, &$form_state) {
+ 
+  $form['swftools_upload'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('Upload integration'),
+    '#description' => t('SWF Tools provides simple integration with the upload module. This only offers very limited functionality and is provided primarily for backward compatability with Drupal 5 sites. CCK integration provides much more flexibility and should be used for new installations.'),
+  );
+
+  $form['swftools_upload']['swftools_upload_integration'] = array(
+    '#type' => 'radios',
+    '#title' => t('Upload integration'),
+    '#default_value' => variable_get('swftools_upload_integration', 0),
+    '#options' => array(
+      0 => t('Disabled'),
+      1 => t('Enabled'),
+    ),
+    '#description' => t('When enabled all nodes will run through the SWF Tools integration module and any files will be converted to a media player or playlist.'),
+  );
+  
+  // Convert extensions back from array to string
+  $extensions = variable_get('swftools_upload_extensions', array('swf', 'mp3', 'flv'));
+  $extensions = implode(' ', $extensions);
+  
+  $form['swftools_upload']['swftools_upload_extensions'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Integrate extensions'),
+    '#default_value' => $extensions,
+    '#description' => t('Enter a list of extensions that should be processed by SWF Tools. When an extension is in this list all files with that extension will be processed. It is not possible to selectively apply the integration.'),
+  );
+  
+  // Attach custom submit handler
+  $form['#submit'] = array_merge(array('swftools_admin_upload_integration_submit'), $form['#submit']);
+  
+  // Put buttons back in the right place
+  $temp = $form['buttons'];
+  unset($form['buttons']);
+  $form['buttons'] = $temp;
+  
+}
+
+
+/**
+ * Explodes a string of file extensions and converts them in to an array.
+ */
+function swftools_admin_upload_integration_submit($form, &$form_state) {
+  
+  // Turn string of extensions in to an array
+  $form_state['values']['swftools_upload_extensions'] = explode(' ', strtolower($form_state['values']['swftools_upload_extensions']));
+  
+}
