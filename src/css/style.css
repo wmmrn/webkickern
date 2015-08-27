@@ -1,0 +1,22 @@
+body {
+    background-image: url(/img/bg_body.jpg);
+    background-color: #180501;
+    background-attachment: fixed;
+    background-position: top center;
+    padding: 0;
+    margin: 0;
+}
+
+.info-wrapper {
+    background-image: url(/img/bg_bottom.png);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    height: 310px;
+    margin-top: 50px;
+}
+
+.info {
+	text-align: center;
+	color:#FFF;
+	padding-top: 180px;
+}
