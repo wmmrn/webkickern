@@ -1,0 +1,104 @@
+/* ---------------------------------------------
+
+* Filename:     webkick.css
+* Version:      1.0.0 (2015-05-09)
+* Website:      http://www.wmmrn.de
+* Description:  System Styles
+* Author:       WMMRN Team
+
+-----------------------------------------------*/
+
+#block-views-teams-block .views-field-field-company, .field-name-field-company {
+  font-size: 0.7rem;
+}
+
+#block-views-teams-block .views-field-field-player2, .field-name-field-player1, .field-name-field-player2 {
+  font-size: 0.7rem;
+}
+
+#block-views-teams-block .views-row {
+  margin-bottom: 32px;
+}
+
+#block-views-teams-block .views-field-title {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+.field-item h2 {
+	margin: 0;
+}
+
+.node-team .group-left {
+	width: auto;
+	margin-right: 20px;
+}
+
+.node-team .group-right {
+	width: auto;
+}
+
+.company-logo {
+  max-width: 200px;
+}
+
+.free-slots {
+	font-family: 'Oswald';
+    font-size: 90px;
+    /* border-bottom: 1px solid grey; */
+    height: 170px;
+    padding-top: 60px;
+	background-image: url(../images/uncle_sam.png);
+	background-repeat: no-repeat;
+	background-position: top center;
+	color: white;
+	text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
+
+}
+
+#block-webkickern-free-slots .wait-list {
+	margin-top: 32px;
+	font-size: 0.7rem;
+}
+
+.ds-2col-fluid > .group-right
+{
+	float: left;
+}
+
+.field-name-field-gallery .field-item {
+  float: left;
+  line-height: 0;
+}
+
+.inner-subnav {
+  margin-bottom: 15px !important;
+}
+
+.top3-result {
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+
+.view-tournament-results caption {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 150%;
+  text-align: left;
+  font-size: 24px;
+  font-family: 'Oswald', sans-serif;
+}
+
+th.views-field-title,
+td.views-field-title {
+  max-width: 150px;
+  min-width: 100px;
+}
+
+.view-teams .field-name-field-teamlogo img {
+  border: 1px solid #968871;
+}
