@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Webkickern Module
+ *
+ * @copyright   2015 Webmontag MRN - www.wmmrn.de
+ * @version     $Id: webkickern.module 520 2015-09-09 09:11:13Z frame $
+ */
+
+
+/**
+ * Implements hook_permission().
+ */
+function hook_permission() {
+  return array(
+    'administer webkickern' => array(
+      'title' => t('Administer webkickern'),
+      'description' => t('Perform administration tasks for webkickern.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function webkickern_menu() {
+  $items['admin/config/people/webkickern'] = array(
+    'title' => 'Webkickern settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webkickern_settings_form'),
+    'access arguments' => array('administer webkickern'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form().
+ * Admin form to configurable webkickern settings
+ */
+function webkickern_settings_form($form, &$form_state) {
+  $form['webkickern_free_slots'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of allowd teams'),
+    '#size' => 10,
+    '#default_value' => variable_get('webkickern_free_slots', 16),
+    '#maxlength' => 2,
+    '#required' => TRUE,
+    '#element_validate' => array('_webkickern_free_slots_input'),
+    '#description' => t('Please add numbers dividable by 4 only. Otherwise everything explodes
+                        in a big bang, because the developer was to lazy to write
+                        a validation function.'),
+  );
+
+  $form['webkickern_year'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Year (for free slots)'),
+    '#size' => 10,
+    '#default_value' => variable_get('webkickern_free_slots_year', 2015),
+    '#maxlength' => 4,
+    '#required' => TRUE,
+    '#description' => t('Please add year (YYYY) only. Otherwise everything explodes
+                        in a big bang, because the developer was to lazy to write
+                        a validation function.'),
+  );
+
+
+  return system_settings_form($form);
+}
+
+function _webkickern_free_slots_input($element, &$form_state, $form) {
+  if (empty($element['#value'])) {
+    form_error($element, t('This field is required.'));
+  }
+  if(!is_numeric($element['#value'])) {
+    form_error($element, t('Gotcha! Only numbers allowed, biatch!'));
+  }
+  if ($element['#value'] % 4 != 0) {
+    form_error($element, t('WTF? I told you,that the number has to be dividable by 4.'));
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * @link    http://api.drupal.org/api/function/hook_block/6
+ * @author  frank meyerer <meyerer@digi-info.de>
+ */
+
+function webkickern_block($op = 'list', $delta = 0) {
+  if (user_access('access content')) {
+    if ($op == 'list') {
+      $blocks[0]['info']  = t('Free slots');
+      return $blocks;
+    }
+    elseif ($op == 'view') {
+      switch ($delta) {
+        case 0:
+          return webkickern_block_free_slots();
+          break;
+        default:
+          return '';
+      }
+    }
+  }
+}
+
+function webkickern_block_info() {
+  $blocks['free_slots'] = array(
+    'info' => t('Webkickern: Current free slots'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function webkickern_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'free_slots':
+      if (user_access('access content')) {
+        return webkickern_block_free_slots();
+      }
+      break;
+  }
+
+  return $block;
+}
+
+function webkickern_block_free_slots() {
+  // How many teams
+  $max_teams = variable_get('webkickern_free_slots', '16');
+  $year = variable_get('webkickern_free_slots_year', '2015');
+
+  // get taxonomy tid
+  $year_tid = 0;
+  $termArr = taxonomy_get_term_by_name($year);
+  if (!empty($termArr)) {
+    $year_tid = array_pop($termArr)->tid;
+  }
+
+  $play_teams = db_query("SELECT node.title AS node_title, node.nid AS nid FROM {node} node
+                          INNER JOIN {field_data_field_status} field_data_field_status ON node.nid = field_data_field_status.entity_id AND (field_data_field_status.entity_type = 'node' AND field_data_field_status.deleted = '0')
+                          INNER JOIN {taxonomy_index} taxonomy_index ON node.nid = taxonomy_index.nid
+                          WHERE (( (node.status = '1') AND (node.type IN  ('team')) AND (field_data_field_status.field_status_value = 'Nimmt am Tunier teil') AND (taxonomy_index.tid = $year_tid) ))");
+  $total_play_teams = $play_teams->rowCount();
+
+  $wait_teams = db_query("SELECT node.title AS node_title, node.nid AS nid FROM {node} node
+                          INNER JOIN {field_data_field_status} field_data_field_status ON node.nid = field_data_field_status.entity_id AND (field_data_field_status.entity_type = 'node' AND field_data_field_status.deleted = '0')
+                          INNER JOIN {taxonomy_index} taxonomy_index ON node.nid = taxonomy_index.nid
+                          WHERE (( (node.status = '1') AND (node.type IN  ('team')) AND (field_data_field_status.field_status_value = 'Auf der Warteliste') AND (taxonomy_index.tid = $year_tid) ))");
+  $total_wait_teams = $wait_teams->rowCount();
+
+  $free_slots = $max_teams - $total_play_teams;
+
+  if($free_slots <= 0) {
+    $free_slots = 0;
+  }
+
+  $content = '<div class="free-slots">' . $free_slots . '</div><div class="wait-list">' .$total_wait_teams . ' auf der Warteliste</div>';
+
+  $block  = array (
+    'content' => $content,
+    'subject' => t('Free slots')
+  );
+
+  return $block;
+}
+
+function webkickern_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  if ($view->name == 'tournament_results' && $view->current_display == 'page') {
+    // Manipulate the title
+    $view->set_title($view->human_name . ' ' . $view->args[0]); //added end quote
+  }
+}
+
+function webkickern_preprocess_page(&$variables) {
+  drupal_add_js(drupal_get_path('module', 'webkickern') . '/js/message.js');
+}

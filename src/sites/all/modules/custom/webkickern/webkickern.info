@@ -1,0 +1,5 @@
+name = Webkickern
+description = Settings and functions for webkickern event
+package = Webkickern
+core = 7.x
+files[] = welcome.module
